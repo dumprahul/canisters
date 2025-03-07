@@ -1,7 +1,7 @@
 actor Backend {
   stable var counter = 0;
 
-  // Get the current count
+  // Get the current count()
   public query func get() : async Nat {
     counter;
   };
