@@ -1,4 +1,4 @@
-import Array "mo:base/Array"; // Import Array utilities
+import Array "mo:base/Array"; // Import Array utilitiess
 
 actor IdeaStorage {
 
