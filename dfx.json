@@ -2,7 +2,8 @@
   "canisters": {
     "canisters_backend": {
       "main": "src/canisters_backend/main.mo",
-      "type": "motoko"
+      "type": "motoko",
+      "candid": "src/canisters_backend/canisters_backend.did"
     }
   },
   "defaults": {
