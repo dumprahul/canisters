@@ -1,18 +1,54 @@
-actor Backend {
-  stable var counter = 0;
+import Array "mo:base/Array"; // Import Array utilities
 
-  // Get the current count()
-  public query func get() : async Nat {
-    counter;
+actor IdeaStorage {
+
+  // Define an Idea record structure
+  type Idea = {
+    id : Nat;
+    name : Text;
+    description : Text;
+    problemStatement : Text;
+    pptLink : Text;
   };
 
-  // Increment the count by one
-  public func inc() : async () {
-    counter += 1;
+  // Stable array to store ideas
+  stable var ideas : [Idea] = [];
+  stable var ideaCount : Nat = 0;
+
+  // Store a new idea with an auto-incremented ID
+  public func storeIdea(name : Text, description : Text, problemStatement : Text, pptLink : Text) : async Nat {
+    let newIdea : Idea = {
+      id = ideaCount;
+      name = name;
+      description = description;
+      problemStatement = problemStatement;
+      pptLink = pptLink;
+    };
+
+    // Create a new array by appending the new idea (since arrays are immutable)
+    ideas := Array.append<Idea>(ideas, [newIdea]);
+    ideaCount += 1;
+
+    // Return the assigned ID
+    return newIdea.id;
   };
 
-  // Add `n` to the current count
-  public func add(n : Nat) : async () {
-    counter += n;
+  // Get the total number of ideas stored
+  public query func getIdeaCount() : async Nat {
+    return ideaCount;
+  };
+
+  // Retrieve an idea by ID
+  public query func getIdea(id : Nat) : async ?Idea {
+    if (id < ideaCount) {
+      return ?ideas[id];
+    } else {
+      return null;
+    };
+  };
+
+  // Get all stored ideas
+  public query func getAllIdeas() : async [Idea] {
+    return ideas;
   };
 };
